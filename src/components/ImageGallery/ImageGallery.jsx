@@ -3,12 +3,11 @@ import { Component } from 'react';
 import ImageGalleryItem from 'components/ImageGalleryItem/ImageGalleryItem';
 import Loader from 'components/Loader/Loader';
 import notifyOptions from '../../helpers/toastNotifyOptions';
+import { API_KEY, BASE_URL } from '../../helpers/pixabayOptions';
 
 import { toast } from 'react-toastify';
-import axios from 'axios';
 
-const BASE_URL = 'https://pixabay.com/api/';
-const API_KEY = '36088213-4b97604b7362cbb60f40d0588';
+import axios from 'axios';
 
 export default class ImageGallery extends Component {
   state = {
@@ -30,41 +29,37 @@ export default class ImageGallery extends Component {
         // isLoading: true, queryData: null, error: null
       });
 
-      setTimeout(() => {
-        axios
-          .get(BASE_URL, {
-            params: {
-              key: API_KEY,
-              q: nextQuery,
-              image_type: 'photo',
-              orientation: 'horizontal',
-              safesearch: true,
-              page: this.state.page,
-              per_page: this.state.per_page,
-            },
-          })
-          .then(resp => {
-            if (resp.data.hits.length) {
-              return this.setState({
-                queryData: resp.data,
-                status: 'resolved',
-              });
-            }
-            return Promise.reject(
-              new Error('There is no images by this query')
-            );
-          })
-          .catch(error => {
-            this.setState({ error, status: 'rejected' });
-            toast.error('Oops. Something has gone wrong', notifyOptions);
-            console.log(error);
-          });
-        // .finally(() => this.setState({ isLoading: false }));
-      }, 1000);
+      axios
+        .get(BASE_URL, {
+          params: {
+            key: API_KEY,
+            q: nextQuery,
+            image_type: 'photo',
+            orientation: 'horizontal',
+            safesearch: true,
+            page: this.state.page,
+            per_page: this.state.per_page,
+          },
+        })
+        .then(resp => {
+          if (resp.data.hits.length) {
+            console.log(resp.data);
+            return this.setState({
+              queryData: resp.data,
+              status: 'resolved',
+            });
+          }
+          return Promise.reject(new Error('There is no images by this query'));
+        })
+        .catch(error => {
+          this.setState({ error, status: 'rejected' });
+          toast.error('Oops. Something has gone wrong', notifyOptions);
+        });
+      // .finally(() => this.setState({ isLoading: false }));
     }
   }
   render() {
-    const { queryData, isLoading, error, status } = this.state;
+    const { queryData, error, status } = this.state;
 
     if (status === 'idle') {
       return <div>Enter your query</div>;
