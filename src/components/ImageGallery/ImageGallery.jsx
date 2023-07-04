@@ -13,8 +13,9 @@ const API_KEY = '36088213-4b97604b7362cbb60f40d0588';
 export default class ImageGallery extends Component {
   state = {
     queryData: null,
-    isLoading: false,
+    // isLoading: false,
     error: null,
+    status: 'idle',
     per_page: 40,
     page: 1,
   };
@@ -24,7 +25,10 @@ export default class ImageGallery extends Component {
     const nextQuery = this.props.query;
 
     if (prevQuery !== nextQuery) {
-      this.setState({ isLoading: true });
+      this.setState({
+        status: 'pending',
+        // isLoading: true, queryData: null, error: null
+      });
 
       setTimeout(() => {
         axios
@@ -39,30 +43,60 @@ export default class ImageGallery extends Component {
               per_page: this.state.per_page,
             },
           })
-          .then(resp =>
-            this.setState({ queryData: resp.data }, console.log(resp.data))
-          )
+          .then(resp => {
+            if (resp.data.hits.length) {
+              return this.setState({
+                queryData: resp.data,
+                status: 'resolved',
+              });
+            }
+            return Promise.reject(
+              new Error('There is no images by this query')
+            );
+          })
           .catch(error => {
-            this.setState({ error });
+            this.setState({ error, status: 'rejected' });
             toast.error('Oops. Something has gone wrong', notifyOptions);
             console.log(error);
-          })
-          .finally(() => this.setState({ isLoading: false }));
+          });
+        // .finally(() => this.setState({ isLoading: false }));
       }, 1000);
     }
   }
   render() {
-    const { queryData, isLoading } = this.state;
+    const { queryData, isLoading, error, status } = this.state;
 
-    return (
-      <div>
-        {isLoading && <Loader />}
-        {queryData && (
+    if (status === 'idle') {
+      return <div>Enter your query</div>;
+    }
+    if (status === 'pending') {
+      return <Loader />;
+    }
+
+    if (status === 'rejected') {
+      return <h2>{error.message}</h2>;
+    }
+
+    if (status === 'resolved') {
+      return (
+        <div>
           <ul className="gallery" style={{ backgroundColor: 'yellow' }}>
             <ImageGalleryItem queryData={queryData} />
           </ul>
-        )}
-      </div>
-    );
+        </div>
+      );
+    }
+
+    // return (
+    //   <div>
+    //     {error && <h2>{error.message}</h2>}
+    //     {isLoading && <Loader />}
+    //     {queryData && !!queryData.totalHits && (
+    //       <ul className="gallery" style={{ backgroundColor: 'yellow' }}>
+    //         <ImageGalleryItem queryData={queryData} />
+    //       </ul>
+    //     )}
+    //   </div>
+    // );
   }
 }
