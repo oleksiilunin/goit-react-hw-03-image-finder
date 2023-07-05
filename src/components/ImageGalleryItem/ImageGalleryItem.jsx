@@ -1,8 +1,7 @@
-const ImageGalleryItem = () => {
+const ImageGalleryItem = ({ id, webformatURL, largeImageURL, tags }) => {
   return (
-    <li className="gallery-item">
-      <img src="" alt="" />
-      WORK
+    <li key={id} className="gallery-item" data-src={largeImageURL}>
+      <img src={webformatURL} alt={tags} />
     </li>
   );
 };

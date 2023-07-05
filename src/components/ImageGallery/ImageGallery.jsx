@@ -43,13 +43,14 @@ export default class ImageGallery extends Component {
         })
         .then(resp => {
           if (resp.data.hits.length) {
-            console.log(resp.data);
             return this.setState({
               queryData: resp.data,
               status: 'resolved',
             });
           }
-          return Promise.reject(new Error('There is no images by this query'));
+          return Promise.reject(
+            new Error(`There is no images by query: ${nextQuery}`)
+          );
         })
         .catch(error => {
           this.setState({ error, status: 'rejected' });
@@ -73,10 +74,22 @@ export default class ImageGallery extends Component {
     }
 
     if (status === 'resolved') {
+      const imagesArray = queryData.hits;
+
       return (
         <div>
-          <ul className="gallery" style={{ backgroundColor: 'yellow' }}>
-            <ImageGalleryItem queryData={queryData} />
+          <ul className="gallery">
+            {imagesArray.map(({ id, webformatURL, largeImageURL, tags }) => {
+              return (
+                <ImageGalleryItem
+                  key={id}
+                  id={id}
+                  webformatURL={webformatURL}
+                  largeImageURL={largeImageURL}
+                  tags={tags}
+                />
+              );
+            })}
           </ul>
         </div>
       );
