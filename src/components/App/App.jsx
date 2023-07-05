@@ -13,7 +13,6 @@ export default class App extends Component {
 
   handleSubmitForm = query => {
     this.setState({ query });
-    console.log(query);
   };
 
   render() {
