@@ -1,9 +1,55 @@
-const ImageGalleryItem = ({ id, webformatURL, largeImageURL, tags }) => {
-  return (
-    <li key={id} className="gallery-item" data-src={largeImageURL}>
-      <img src={webformatURL} alt={tags} />
-    </li>
-  );
-};
+import React, { Component } from 'react';
+import Modal from 'components/Modal/Modal';
+import { Image, Item } from './ImageGalleryItem.styled';
+
+class ImageGalleryItem extends Component {
+  state = {
+    isModalOpen: false,
+  };
+
+  componentDidMount() {
+    document.addEventListener('keydown', this.onKeyDownCloseModal);
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener('keydown', this.onKeyDownCloseModal);
+  }
+
+  onClickCloseModal = event => {
+    if (event.target.classList.contains('overlay')) {
+      this.setState({ isModalOpen: false });
+    }
+  };
+
+  onKeyDownCloseModal = event => {
+    if (event.code === 'Escape') {
+      this.setState({ isModalOpen: false });
+    }
+  };
+
+  handleItemClick = () => {
+    this.setState({ isModalOpen: true });
+  };
+
+  render() {
+    const { id, webformatURL, largeImageURL, tags } = this.props;
+    const { isModalOpen } = this.state;
+
+    return (
+      <>
+        <Item key={id} onClick={this.handleItemClick}>
+          <Image src={webformatURL} alt={tags} />
+        </Item>
+        {isModalOpen && (
+          <Modal
+            imageURL={largeImageURL}
+            alt={tags}
+            onClickCloseModal={this.onClickCloseModal}
+          />
+        )}
+      </>
+    );
+  }
+}
 
 export default ImageGalleryItem;
