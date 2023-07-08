@@ -56,7 +56,7 @@ class ImageGalleryItem extends Component {
 }
 
 ImageGalleryItem.propTypes = {
-  id: PropTypes.string.isRequired,
+  id: PropTypes.number.isRequired,
   webformatURL: PropTypes.string.isRequired,
   largeImageURL: PropTypes.string.isRequired,
   tags: PropTypes.string.isRequired,
