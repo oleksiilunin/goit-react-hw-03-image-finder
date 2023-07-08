@@ -5,23 +5,26 @@ import Searchbar from 'components/Searchbar/Searchbar';
 
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { GlobalStyles } from 'components/GlobalStyles';
+import { AppContainer } from './App.styled';
 
 export default class App extends Component {
   state = {
-    query: '',
+    searchQuery: '',
   };
 
-  handleSubmitForm = query => {
-    this.setState({ query });
+  handleSearch = searchQuery => {
+    this.setState({ searchQuery });
   };
 
   render() {
     return (
-      <div>
-        <Searchbar onSubmit={this.handleSubmitForm} />
-        <ImageGallery query={this.state.query} />
+      <AppContainer>
+        <Searchbar handleSearch={this.handleSearch} />
+        <ImageGallery searchQuery={this.state.searchQuery} />
         <ToastContainer />
-      </div>
+        <GlobalStyles />
+      </AppContainer>
     );
   }
 }
