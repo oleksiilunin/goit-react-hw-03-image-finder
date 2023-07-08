@@ -3,6 +3,12 @@ import { createGlobalStyle } from 'styled-components';
 import '../css/fonts.css';
 
 export const GlobalStyles = createGlobalStyle`
+html {
+  box-sizing: border-box;
+  width: 100vw;
+  overflow-x: hidden;
+}
+
   body {
     margin: 0;
     min-height: 100%;
@@ -10,13 +16,15 @@ export const GlobalStyles = createGlobalStyle`
       'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
       sans-serif;
 
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
+     color: #212121;
+  background-color: #fff;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 
     background: #c6c6c6;
   }
   code {
-    font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    font-family: 'Open Sans', source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
       monospace;
   }
 
