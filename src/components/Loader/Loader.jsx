@@ -1,19 +1,20 @@
 import { ThreeDots } from 'react-loader-spinner';
+import { LoaderWrapper } from './Loader.styled';
 
 const Loader = () => {
   return (
-    <div>
+    <LoaderWrapper>
       <ThreeDots
-        height="60"
-        width="60"
-        radius="9"
-        color="#4fa94d"
+        height="100"
+        width="100"
+        radius="12"
+        color="#3f51b5"
         ariaLabel="three-dots-loading"
         wrapperStyle={{}}
         wrapperClassName=""
         visible={true}
       />
-    </div>
+    </LoaderWrapper>
   );
 };
 
