@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 
+import PropTypes from 'prop-types';
+
 import ButtonLoadMore from 'components/ButtonLoadMore/ButtonLoadMore';
 import ErrorCard from 'components/ErrorCard/ErrorCard';
 import ImageGalleryItem from 'components/ImageGalleryItem/ImageGalleryItem';
@@ -100,4 +102,7 @@ class ImageGallery extends Component {
   }
 }
 
+ImageGallery.propTypes = {
+  searchQuery: PropTypes.string.isRequired,
+};
 export default ImageGallery;

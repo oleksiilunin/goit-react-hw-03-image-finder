@@ -1,4 +1,6 @@
 import { Component } from 'react';
+import PropTypes from 'prop-types';
+
 // import { Formik, Form, Field } from 'formik';
 
 import notifyOptions from '../../helpers/toastNotifyOptions';
@@ -60,3 +62,7 @@ export default class Searchbar extends Component {
     );
   }
 }
+
+Searchbar.propTypes = {
+  handleSearch: PropTypes.func.isRequired,
+};

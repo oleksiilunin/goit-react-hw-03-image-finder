@@ -1,4 +1,7 @@
 import React, { Component } from 'react';
+
+import PropTypes from 'prop-types';
+
 import Modal from 'components/Modal/Modal';
 import { Image, Item } from './ImageGalleryItem.styled';
 
@@ -51,5 +54,12 @@ class ImageGalleryItem extends Component {
     );
   }
 }
+
+ImageGalleryItem.propTypes = {
+  id: PropTypes.string.isRequired,
+  webformatURL: PropTypes.string.isRequired,
+  largeImageURL: PropTypes.string.isRequired,
+  tags: PropTypes.string.isRequired,
+};
 
 export default ImageGalleryItem;

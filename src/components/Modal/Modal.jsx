@@ -1,5 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+
+import PropTypes from 'prop-types';
+
 import { ModalWrapper, Overlay } from './Modal.styled';
 
 const Modal = ({ imageURL, alt, onClickCloseModal }) => {
@@ -11,6 +14,12 @@ const Modal = ({ imageURL, alt, onClickCloseModal }) => {
     </Overlay>,
     document.body
   );
+};
+
+Modal.propTypes = {
+  imageURL: PropTypes.string.isRequired,
+  alt: PropTypes.string.isRequired,
+  onClickCloseModal: PropTypes.func.isRequired,
 };
 
 export default Modal;
