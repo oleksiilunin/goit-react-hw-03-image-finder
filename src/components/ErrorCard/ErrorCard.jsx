@@ -1,7 +1,7 @@
 import React from 'react';
 
 import errorImage from '../../assets/Oops_1.jpg';
-import { ErrorImage, ErrorText, ErrorWrapper } from './ErrorCardstyled';
+import { ErrorImage, ErrorText, ErrorWrapper } from './ErrorCard.styled';
 
 const ErrorCard = ({ children }) => {
   return (
