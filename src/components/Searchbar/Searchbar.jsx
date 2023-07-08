@@ -1,76 +1,62 @@
 import { Component } from 'react';
+// import { Formik, Form, Field } from 'formik';
 
 import notifyOptions from '../../helpers/toastNotifyOptions';
 
 import { FiSearch } from 'react-icons/fi';
 import { toast } from 'react-toastify';
+import {
+  ButtonForm,
+  Form,
+  Header,
+  InputButton,
+  LabelButton,
+} from './Searchbar.styled';
 
 export default class Searchbar extends Component {
   state = {
-    query: '',
+    searchQuery: '',
   };
 
-  handleChangeQuery = event => {
-    this.setState({ query: event.currentTarget.value.toLowerCase() });
+  handleChangeQuery = ({ target: { value } }) => {
+    this.setState({ searchQuery: value.toLowerCase() });
   };
 
-  handleSubmit = event => {
-    event.preventDefault();
+  handleSubmit = e => {
+    e.preventDefault();
 
-    if (this.state.query.trim() === '') {
+    this.props.handleSearch(this.state.searchQuery);
+
+    if (this.state.searchQuery.trim() === '') {
       toast.info('Enter a search query', notifyOptions);
 
       return;
     }
 
-    this.props.onSubmit(this.state.query);
+    // this.props.onSubmit(this.state.searchQuery);
 
-    this.setState({ query: '' });
+    // this.setState({ searchQuery: '' });
   };
   render() {
     return (
-      <header className="searchbar">
-        <form className="form" onSubmit={this.handleSubmit}>
-          <button type="submit" className="button">
+      <Header>
+        <Form onSubmit={this.handleSubmit}>
+          <ButtonForm type="submit">
             <FiSearch />
-            <span className="button-label">Search</span>
-          </button>
+            <LabelButton></LabelButton>
+          </ButtonForm>
 
-          <input
-            className="input"
+          <InputButton
             type="text"
             name="query"
-            value={this.state.query}
+            value={this.state.searchQuery}
             autoComplete="off"
             autoFocus
             placeholder="Search images and photos"
             onChange={this.handleChangeQuery}
           />
-        </form>
-      </header>
+        </Form>
+      </Header>
     );
   }
 }
-
-// const Searchbar = ({ onSubmit }) => {
-//   return (
-//     <header className="searchbar">
-//       <form className="form">
-//         <button type="submit" className="button">
-//           <FiSearch />
-//           <span className="button-label">Search</span>
-//         </button>
-
-//         <input
-//           className="input"
-//           type="text"
-//           autoComplete="off"
-//           autoFocus
-//           placeholder="Search images and photos"
-//         />
-//       </form>
-//     </header>
-//   );
-// };
-
-// export default Searchbar;
