@@ -44,7 +44,7 @@ export default class Searchbar extends Component {
       <Header>
         <Form onSubmit={this.handleSubmit}>
           <ButtonForm type="submit">
-            <FiSearch />
+            <FiSearch size={24} />
             <LabelButton></LabelButton>
           </ButtonForm>
 
